@@ -1,0 +1,28 @@
+'''
+class Node:
+    def __init__(self, data): 
+        self.data = data
+        self.next = None
+'''
+
+class Solution:
+    def lengthOfLoop(self, head):
+        #code here
+        slow = fast = head
+
+        # Step 1: Detect cycle
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                # Step 2: Count loop length
+                return self.countNodes(slow)
+        return 0
+
+    def countNodes(self, node):
+        count = 1
+        temp = node.next
+        while temp != node:
+            count += 1
+            temp = temp.next
+        return count
