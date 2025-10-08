@@ -1,0 +1,48 @@
+#https://leetcode.com/problems/largest-rectangle-in-histogram/
+
+class Solution(object):
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        def findNSE(heights):
+            stack=[]
+            n=len(heights)
+            ans=[0]*n
+            for i in range(n-1,-1,-1):
+                curr=heights[i]
+                while(len(stack)!=0 and heights[stack[-1]]>=curr):
+                    stack.pop()
+                if(len(stack)==0):
+                    ans[i]=n
+                else:
+                    ans[i]=stack[-1]
+                stack.append(i)
+            return ans
+
+        def findPSE(heights):
+            stack=[]
+            n=len(heights)
+            ans=[0]*n
+            for i in range(0,n):
+                curr=heights[i]
+                while(len(stack)!=0 and heights[stack[-1]]>=curr):
+                    stack.pop()
+                if(len(stack)==0):
+                    ans[i]=-1
+                else:
+                    ans[i]=stack[-1]
+                stack.append(i)
+            return ans
+            
+        nse=findNSE(heights)
+        pse=findPSE(heights)
+        area=0
+        maxArea=0
+        n=len(heights)
+        for i in range(0,n):
+            area=heights[i]*(nse[i]-pse[i]-1)
+            maxArea=max(maxArea,area)
+
+        return maxArea
