@@ -1,0 +1,23 @@
+#https://leetcode.com/problems/valid-parentheses/
+
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        stack=[]
+        mapping={')':'(', '}':'{', ']':'['}
+
+        for ch in s:
+            if ch in mapping.values():
+                stack.append(ch)
+            elif ch in mapping:
+                if not stack or stack[-1]!=mapping[ch]:
+                    return False
+                stack.pop()
+            else:
+                return False
+            
+        return not stack
+        
