@@ -1,0 +1,60 @@
+#amount of time for binary treeto be infected
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+class Solution(object):
+    def amountOfTime(self, root, start):
+        """
+        :type root: Optional[TreeNode]
+        :type start: int
+        :rtype: int
+        """
+        def parentAddress(root):
+            mpp={}
+            q=deque([root])
+            while(len(q)>0):
+                node=q.popleft()
+                if(node.left):
+                    mpp[node.left]=node
+                    q.append(node.left)
+                if(node.right):
+                    mpp[node.right]=node
+                    q.append(node.right)
+            return mpp
+
+        def inorder(root,start):
+            if(root==None):
+                return None
+            if(root.val==start):
+                return root
+            path1=inorder(root.left, start)
+            if(path1!=None):
+                return path1
+            path2=inorder(root.right, start)
+            return path1 or path2
+
+        d=parentAddress(root)
+        startNode=inorder(root,start)
+        time=0
+        visited=set([start])
+        visited.add(startNode)
+        que=deque([startNode])
+        while(len(que)>0):
+            for i in range(len(que)):
+                node=que.popleft()
+                if(node in d and d[node] not in visited):
+                    visited.add(d[node])
+                    que.append(d[node])
+                if(node.left and node.left not in visited):
+                    visited.add(node.left)
+                    que.append(node.left)
+                if(node.right and node.right not in visited):
+                    visited.add(node.right)
+                    que.append(node.right)
+            time+=1
+        return time-1 
