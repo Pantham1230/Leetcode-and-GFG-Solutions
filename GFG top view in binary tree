@@ -1,0 +1,28 @@
+#top view in binary tree
+
+from collections import deque
+'''
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.left = None
+        self.right = None
+'''
+
+class Solution:
+    def topView(self, root):
+        # code here
+        d={}
+        q=deque([(root, 0)])
+        while(len(q)>0):
+            node, vertical=q.popleft()
+            if(node.left):
+                q.append((node.left,vertical-1))
+            if(node.right):
+                q.append((node.right, vertical+1))
+            if(vertical not in d):
+                d[vertical]=node.data
+        ans=[]
+        for i in sorted(d):
+            ans.append(d[i])
+        return ans
