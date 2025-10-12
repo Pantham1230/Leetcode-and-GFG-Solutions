@@ -1,0 +1,30 @@
+#number of islands
+
+class Solution(object):
+    def numIslands(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        def dfs(i,j,vis,grid,n,m):
+            for r,c in [[-1,0],[1,0],[0,-1],[0,1]]:
+                ur=i+r
+                uc=j+c
+                if(ur>=0 and ur<n and uc>=0 and uc<m and grid[ur][uc]=='1' and vis[ur][uc]==0):
+                    vis[ur][uc]=1
+                    dfs(ur,uc,vis,grid,n,m)
+
+        n=len(grid)
+        m=len(grid[0])
+        vis=[]
+        for i in range(n):
+            lst=[0]*m
+            vis.append(lst)
+        islands=0
+        for i in range(n):
+            for j in range(m):
+                if(grid[i][j]=='1' and vis[i][j]==0):
+                    vis[i][j]=1
+                    dfs(i,j,vis,grid,n,m)
+                    islands+=1
+        return islands
