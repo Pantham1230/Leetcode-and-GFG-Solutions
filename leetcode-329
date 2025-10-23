@@ -1,0 +1,39 @@
+class Solution(object):
+    def longestIncreasingPath(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: int
+        """
+        if not matrix or not matrix[0]:
+            return 0
+        
+        rows = len(matrix)
+        cols = len(matrix[0])
+        
+        memo = []
+        for i in range(rows):
+            memo.append([0] * cols)
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        def dfs(r, c):
+            if memo[r][c] != 0:
+                return memo[r][c]
+            max_length = 1
+            for direction in directions:
+                new_r = r + direction[0]
+                new_c = c + direction[1]
+                if (0 <= new_r < rows and 0 <= new_c < cols and 
+                    matrix[new_r][new_c] > matrix[r][c]):
+                    length = 1 + dfs(new_r, new_c)
+                    if length > max_length:
+                        max_length = length
+            memo[r][c] = max_length
+            return max_length
+        result = 0
+        for i in range(rows):
+            for j in range(cols):
+                current_path_length = dfs(i, j)
+                if current_path_length > result:
+                    result = current_path_length
+        
+        return result
