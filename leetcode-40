@@ -1,0 +1,25 @@
+class Solution(object):
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        res=[]
+        candidates.sort()
+        def backtrack(start, curr, total):
+            if total==target:
+                res.append(list(curr))
+                return
+            if total>target:
+                return
+            prev=-1
+            for i in range(start, len(candidates)):
+                if candidates[i]==prev:
+                    continue
+                curr.append(candidates[i])
+                backtrack(i+1, curr, total+candidates[i])
+                curr.pop()
+                prev=candidates[i]
+        backtrack(0, [], 0)
+        return res
