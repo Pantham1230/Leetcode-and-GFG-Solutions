@@ -1,0 +1,22 @@
+class Solution(object):
+    def restoreIpAddresses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        res = []
+        def backtrack(start, path):
+            if start == len(s) and len(path) == 4:
+                res.append('.'.join(path))
+                return 
+            if len(path) >= 4:
+                return
+            for l in range(1,4):
+                if start + l > len(s):
+                    break
+                seg = s[start:start + l]
+                if (seg.startswith('0') and len(seg) > 1) or int(seg) > 255:
+                    continue
+                backtrack(start + l, path + [seg])
+        backtrack(0, [])
+        return res
