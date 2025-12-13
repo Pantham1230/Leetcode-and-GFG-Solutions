@@ -1,0 +1,48 @@
+class Node:
+    def __init__(self,key=-1,value=-1):
+        self.prev = None 
+        self.key = key 
+        self.value = value 
+        self.next = None 
+class LRUCache:
+    def __init__(self, capacity):
+        self.cap = capacity
+        self.mpp = {} 
+        self.head = Node() # 1000 
+        self.tail = Node() # 2000 
+        self.head.next = self.tail 
+        self.tail.prev = self.head
+    def addAfterHead(self,newNode):
+        nextNode = self.head.next # 2000 
+        newNode.prev = self.head # 3000.prev =  1000 
+        self.head.next = newNode # 1000.next = 3000  
+        newNode.next = nextNode # 3000.next = 2000 
+        nextNode.prev = newNode # 2000.prev = 3000 
+    def deleteNode(self,node):
+        prevNode = node.prev # 1000  
+        nextNode = node.next # 3000 
+        prevNode.next = nextNode # 1000.next = 3000 
+        nextNode.prev = prevNode # 3000.prev = 1000 
+        #node.prev = None 
+        #node.next = None 
+    def get(self, key):
+        if(key not in self.mpp):
+            return -1 
+        node = self.mpp[key]
+        self.deleteNode(node) 
+        self.addAfterHead(node) 
+        return node.value 
+    def put(self, key, value):
+        if(key in self.mpp):
+            node = self.mpp[key]
+            node.value = value 
+            self.deleteNode(node) 
+            self.addAfterHead(node)
+            return 
+        if(self.cap == len(self.mpp)):
+            node = self.tail.prev 
+            self.deleteNode(node) 
+            del self.mpp[node.key] 
+        newNode = Node(key,value)
+        self.addAfterHead(newNode)
+        self.mpp[key] = newNode 
