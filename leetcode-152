@@ -9,7 +9,9 @@ class Solution(object):
             curr = nums[i]
             if curr < 0:
                 max_prod, min_prod = min_prod, max_prod
-            max_prod = max(curr, max_prod * curr)
-            min_prod = min(curr, max_prod * curr)
+            prev_max = max_prod
+            prev_min = min_prod
+            max_prod = max(curr, prev_max * curr)
+            min_prod = min(curr, prev_min * curr)
             result = max(result, max_prod)
         return result
