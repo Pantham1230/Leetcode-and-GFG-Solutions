@@ -1,0 +1,17 @@
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        if len(s) != len(t):
+            return False
+        s_t = {}
+        t_s = {}
+        for cs, ct in zip(s, t):
+            if (cs in s_t and s_t[cs] != ct) or (ct in t_s and t_s[ct] != cs):
+                return False
+            s_t[cs] = ct
+            t_s[ct] = cs
+        return True
