@@ -1,0 +1,36 @@
+class WordDictionary(object):
+
+    def __init__(self):
+        self.trie = {}
+
+    def addWord(self, word):
+        """
+        :type word: str
+        :rtype: None
+        """
+        node = self.trie
+        for ch in word:
+            node = node.setdefault(ch, {})
+        node['#'] = True
+
+    def search(self, word):
+        """
+        :type word: str
+        :rtype: bool
+        """
+        def dfs(i, node):
+            if i == len(word):
+                return '#' in node
+            ch = word[i]
+            if ch == '.':
+                return any(dfs(i + 1, node[c]) for c in node if c != '#')
+            if ch not in node:
+                return False
+            return dfs(i + 1, node[ch])
+        return dfs(0, self.trie)
+
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
