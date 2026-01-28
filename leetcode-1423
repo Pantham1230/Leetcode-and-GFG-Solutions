@@ -1,0 +1,20 @@
+class Solution(object):
+    def maxScore(self, cardPoints, k):
+        """
+        :type cardPoints: List[int]
+        :type k: int
+        :rtype: int
+        """
+        left = 0
+        right = k - 1
+        n = len(cardPoints)
+        Sum = sum(cardPoints[0:k])
+        maxSum = Sum
+        j = n - 1
+        for _ in range(k):
+            Sum -= cardPoints[right]
+            right -= 1
+            Sum += cardPoints[j]
+            j -= 1
+            maxSum = max(maxSum, Sum)
+        return maxSum
