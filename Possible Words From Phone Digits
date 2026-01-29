@@ -1,0 +1,19 @@
+class Solution:
+    def possibleWords(self, arr):
+        phone_map = {
+            "2": "abc", "3": "def",
+            "4": "ghi", "5": "jkl", "6": "mno",
+            "7": "pqrs", "8": "tuv", "9": "wxyz"
+        }
+        arr = [str(d) for d in arr if str(d) in phone_map]
+        if not arr:
+            return []
+        res = []
+        def backtrack(index, path):
+            if index == len(arr):
+                res.append(path)
+                return
+            for ch in phone_map[arr[index]]:
+                backtrack(index + 1, path + ch)
+        backtrack(0, "")
+        return res
