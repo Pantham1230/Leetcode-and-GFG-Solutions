@@ -1,0 +1,24 @@
+class Solution:
+    def ratInMaze(self, maze):
+        # code here
+        def backtrack(row, col, directions, temp, ans, n):
+            if (row == n - 1 and col == n - 1):
+                ans.append(temp)
+                return
+            for d, r, c in directions:
+                nr = row + r
+                nc = col + c
+                if (nr>=0 and nr<n and nc>=0 and nc<n and maze[nr][nc] == 1):
+                    maze[nr][nc] = " "
+                    backtrack(nr, nc, directions, temp + d, ans, n)
+                    maze[nr][nc] = 1
+        n = len(maze)
+        row = 0
+        col = 0
+        directions = [['D', 1, 0], ['L', 0, -1], ['R', 0, 1], ['U', -1, 0]]
+        ans = []
+        temp = ""
+        maze[row][col] = " "
+        backtrack(row, col, directions, temp, ans, n)
+        maze[row][col] = 1
+        return ans
