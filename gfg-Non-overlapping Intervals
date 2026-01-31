@@ -1,0 +1,12 @@
+class Solution:
+    def minRemoval(self, intervals):
+        # code here
+        n = len(intervals)
+        intervals.sort(key=lambda x:x[1])
+        c = 1
+        endtime = intervals[0][1]
+        for row in range(1,n):
+            if (intervals[row][0]>=endtime):
+                c+=1
+                endtime = intervals[row][1]
+        return n-c
