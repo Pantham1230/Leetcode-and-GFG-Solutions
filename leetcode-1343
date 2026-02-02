@@ -1,0 +1,23 @@
+class Solution(object):
+    def numOfSubarrays(self, arr, k, threshold):
+        """
+        :type arr: List[int]
+        :type k: int
+        :type threshold: int
+        :rtype: int
+        """
+        n = len(arr)
+        left = 0
+        right = k - 1
+        Sum = sum(arr[0:k])
+        count = 0
+        while right < n - 1:
+            if Sum / float(k) >= threshold:
+                count += 1
+            Sum -= arr[left]
+            left += 1
+            right += 1
+            Sum += arr[right]
+        if Sum / float(k) >= threshold:
+            count += 1
+        return count
