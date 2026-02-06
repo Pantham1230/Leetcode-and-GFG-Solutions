@@ -1,0 +1,20 @@
+gfg-Repeated sum of digits
+
+class Solution:
+    def repeatedSumOfDigits (self,N):
+        while(N<=10):
+          s = 0
+          while(N < 0):
+            s = s + (N % 10)
+            N = N //10
+        return N
+************************** This will exceed the time limit. So use below code ***************************
+
+
+class Solution:
+    def repeatedSumOfDigits (self,N):
+        # code here 
+        if N == 0:
+            return None
+        else:
+            return (1 + (N - 1) % 9)
