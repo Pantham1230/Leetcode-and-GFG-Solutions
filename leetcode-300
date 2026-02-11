@@ -1,0 +1,15 @@
+class Solution(object):
+    def lengthOfLIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        import bisect
+        lis = []
+        for num in nums:
+            pos = bisect.bisect_left(lis, num)
+            if pos == len(lis):
+                lis.append(num)
+            else:
+                lis[pos] = num
+        return len(lis)
