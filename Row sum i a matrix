@@ -1,0 +1,7 @@
+class Solution:
+    def rowSum(self, mat):
+        # Code here
+        res = []
+        for row in mat:
+            res.append(sum(row))
+        return res
