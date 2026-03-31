@@ -1,0 +1,30 @@
+#User function Template for python3
+from collections import deque
+from typing import List
+
+class Solution:
+    
+    def shortestPath(self, grid: List[List[int]], source: List[int], destination: List[int]) -> int:
+        # code here
+        n = len(grid)
+        m = len(grid[0])
+        sr, sc = source
+        dr, dc = destination
+        if grid[sr][sc] == 0 or grid[dr][dc] == 0:
+            return -1
+        visited = [[False]*m for _ in range(n)]
+        q = deque()
+        q.append((sr, sc, 0))
+        visited[sr][sc] = True
+        directions = [(-1, 0), (1,0), (0, -1), (0, 1)]
+        while q:
+            r, c, dist = q.popleft()
+            if r == dr and c == dc:
+                return dist
+            for drow, dcol in directions:
+                nr, nc = r + drow, c + dcol
+                if 0 <= nr < n and 0 <= nc < m:
+                    if grid[nr][nc] == 1 and not visited[nr][nc]:
+                        visited[nr][nc] = True
+                        q.append((nr, nc, dist + 1))
+        return -1
