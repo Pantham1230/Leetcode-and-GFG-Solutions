@@ -1,0 +1,25 @@
+from collections import deque
+class Solution:
+    def safeNodes(self, V, edges):
+        adj = [[] for _ in range(V)]
+        for u, v in edges:
+            adj[u].append(v)
+        rev_graph = [[] for _ in range(V)]
+        outdegree = [0] * V
+        for u in range(V):
+            outdegree[u] = len(adj[u])
+            for v in adj[u]:
+                rev_graph[v].append(u)
+        q = deque()
+        for i in range(V):
+            if outdegree[i] == 0:
+                q.append(i)
+        safe = []
+        while q:
+            node = q.popleft()
+            safe.append(node)
+            for parent in rev_graph[node]:
+                outdegree[parent] -= 1
+                if outdegree[parent] == 0:
+                    q.append(parent)
+        return sorted(safe)
