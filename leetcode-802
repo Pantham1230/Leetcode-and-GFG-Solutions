@@ -1,0 +1,27 @@
+from collections import deque, defaultdict
+class Solution(object):
+    def eventualSafeNodes(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[int]
+        """
+        n = len(graph)
+        outdegree=[0]*n
+        rev_graphs = defaultdict(list)
+        for u in range(n):
+            outdegree[u] = len(graph[u])
+            for v in graph[u]:
+                rev_graphs[v].append(u)
+        q = deque()
+        for i in range(n):
+            if outdegree[i] == 0:
+                q.append(i)
+        safe = []
+        while q:
+            node = q.popleft()
+            safe.append(node)
+            for parent in rev_graphs[node]:
+                outdegree[parent] -= 1
+                if outdegree[parent] == 0:
+                    q.append(parent)
+        return sorted(safe)
