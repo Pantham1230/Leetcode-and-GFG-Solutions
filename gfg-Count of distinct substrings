@@ -1,0 +1,19 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        
+class Solution:
+    def countSubs(self, s):
+        # code here
+        root = TrieNode()
+        count = 0
+        n = len(s)
+        for i in range(n):
+            node = root
+            for j in range(i, n):
+                ch = s[j]
+                if ch not in node.children:
+                    node.children[ch] = TrieNode()
+                    count += 1
+                node = node.children[ch]
+        return count
