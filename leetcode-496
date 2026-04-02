@@ -1,0 +1,17 @@
+class Solution(object):
+    def nextGreaterElement(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        s = []
+        nge = {}
+        for n in nums2:
+            while s and s[-1] < n:
+                prev = s.pop()
+                nge[prev] = n
+            s.append(n)
+        while s:
+            nge[s.pop()] = -1
+        return [nge[x] for x in nums1]
