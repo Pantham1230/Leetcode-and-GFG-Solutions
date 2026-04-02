@@ -1,0 +1,42 @@
+class TrieNode:
+    def __init__(self):
+        self.children = [None, None]
+
+class Solution:
+    def maxXor(self, arr):
+        root = TrieNode()
+        
+        # Insert into Trie
+        def insert(num):
+            node = root
+            for i in range(31, -1, -1):
+                bit = (num >> i) & 1
+                if not node.children[bit]:
+                    node.children[bit] = TrieNode()
+                node = node.children[bit]
+        
+        # Find max XOR for a number
+        def query(num):
+            node = root
+            max_xor = 0
+            for i in range(31, -1, -1):
+                bit = (num >> i) & 1
+                opposite = 1 - bit
+                
+                if node.children[opposite]:
+                    max_xor |= (1 << i)
+                    node = node.children[opposite]
+                else:
+                    node = node.children[bit]
+            
+            return max_xor
+        
+        # Build Trie and compute result
+        insert(arr[0])
+        ans = 0
+        
+        for i in range(1, len(arr)):
+            ans = max(ans, query(arr[i]))
+            insert(arr[i])
+        
+        return ans
